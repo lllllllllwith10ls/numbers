@@ -55,7 +55,7 @@ class Number {
 let add = 0;
 let add2 = 0
 let add3 = 0
-let add4 = 0.001;
+let add4 = 0.0000001;
 let number = new Number("0");
 let phase = 0;
 let threshold1 = new Number("10000");
