@@ -35,9 +35,9 @@ class Number {
 			} else {
 				return "equal";
 			}
-		} else if(a.number != undefined && b.number == undefined)) {
+		} else if(a.number != undefined && b.number == undefined) {
 			return b;
-		} else if(b.number != undefined && a.number == undefined)) {
+		} else if(b.number != undefined && a.number == undefined) {
 			return a;
 		} else {
 			if(Number.comp(a.magnitude,b.magnitude) === a.magnitude) {
