@@ -12,6 +12,8 @@ class Number {
 			if(this.value != undefined) {
 				if(this.value > 1e6) {
 					return new Number("10^"+Math.log10(this.value).toString());
+				} else {
+					return this;
 				}
 			} else {
 				this.magnitude = this.magnitude.clean();
