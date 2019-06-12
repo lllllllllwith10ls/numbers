@@ -1,105 +1,70 @@
 class Number {
-	constructor(str,parent) {
-		this.array = [];
-		this.separators = [];
-		let subArray = false;
-		let parentheses = 0;
-		let separator = false;
-		let marker = 0;
-		this.layer = 0;
-		if(!parent) {
-			this.parent = null;
+	constructor(str) {
+		this.type = "number";
+		if(str[0] === "1" && str[1] === "0" && str[2] === "^") {
+			this.magnitude = new Number(str.substring(3, str.length));
 		} else {
-			this.parent = parent;
+			this.value = parseFloat(str);
 		}
-		if(str[1] === "s") {
-			str = str.substring(2, str.length - 1); 
-			for(let i = 0; i < str.length; i++) {
-				if(subArray) {
-					if(str[i] === "(") {
-						parentheses++;
-					}
-					if(str[i] === ")") {
-						parentheses--;
-					}
-					if(parentheses === 0) {
-						subArray = false;
-					}
-					if(str[i] === ",") {
-						str = str.replace(",","c");
-					}if(str[i] === "{") {
-						str = str.replace("{","b");
-					}
-					if(str[i] === "}") {
-						str = str.replace("}","d");
-					}
-					if(str[i] === "`") {
-						str = str.replace("`","g");
-					}
-				} else if(separator) {
-					if(str[i] === "{") {
-						parentheses++;
-					}
-					if(str[i] === "}") {
-						parentheses--;
-					}
-					if(parentheses === 0) {
-						separator = false;
-						let sep = str.substring(marker,i+1);
-						this.separators.push(new Separator(sep,this));
-						str = str.replace(sep," ");
-						i = marker;
-					}
-				} else {
-					if(str[i] === ",") {
-						str = str.replace(","," ");
-						this.separators.push(new Separator(",",this));
-					}
-					if(str[i-1] === "s" && str[i] === "(") {
-						subArray = true;
-						parentheses++;
-					}
-					if(str[i] === "{") {
-						separator = true;
-						parentheses++;
-						marker = i;
-					}
+	}
+	clean() {
+		if(this.type === "number") {
+			if(this.value) {
+				if(this.value > 1e6) {
+					return new Number("10^"+Math.log10(this.value).toString());
 				}
+			} else {
+				this.magnitude = this.magnitude.clean();
+				return this;
 			}
-			str = str.replace(/c/g,",");
-			str = str.replace(/b/g,"{");
-			str = str.replace(/d/g,"}");
-			let array = str.split(" ");
-			for(let i = 0; i < array.length; i++) {
-				if(array[i][0] === "s") {
-					array[i] = new SanArray(array[i],this);
-				} else {
-					array[i] = parseInt(array[i]);
-				}
-			}
-			this.array = array;
-			this.base = this.array.shift();
-			this.iterator = this.array.shift();
-			this.separators.shift();
 		}
 	}
 	toString() {
-		let str = "s(";
-		str+=this.base+","+this.iterator;
-		for(let i = 0; i < this.array.length; i++) {
-			if(this.separators[i]) {
-				str+=this.separators[i].toString();
+		if(this.magnitude) {
+			return "10^"+this.magnitude.toString();
+		} else {
+			return Math.floor(this.number).toString();
+		}
+	}
+	static comp(a,b) {
+		if(a.number != undefined && b.number != undefined) {
+			if(a.number > b.number) {
+				return a;
+			} else if(a.number < b.number) {
+				return b;
+			} else {
+				return "equal";
 			}
-			if(this.array[i]) {
-				if(this.array[i] instanceof SanArray) {
-					
-				} else {
-					str+=this.array[i]+"";
-				}
+		} else if(a.number != undefined && b.number == undefined)) {
+			return b;
+		} else if(b.number != undefined && a.number == undefined)) {
+			return a;
+		} else {
+			if(Number.comp(a.magnitude,b.magnitude) === a.magnitude) {
+				return a;
+			} else if(Number.comp(a.magnitude,b.magnitude) === b.magnitude) {
+				return b;
+			} else {
+				return "equal";
 			}
 		}
-		str += ")";
-		return str;
 	}
-	
 }
+let add = 0;
+let add2 = 0
+let add3 = 0
+let add4 = 0.001;
+let number = new Number("0");
+let phase = 0;
+let threshold1 = new Number("10000");
+function update() {
+	add3 += add4;
+	add2 += add3;
+	add += add2;
+	if(phase === 0) {
+		number.number += add;
+	}
+	number = number.clean();
+	document.getElementById("number").innerHTML = number.toString();
+}
+setInterval(update,10);
