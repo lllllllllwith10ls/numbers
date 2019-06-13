@@ -80,7 +80,7 @@ class Number {
 let add = 0;
 let add2 = 0
 let add3 = 0.0000001;
-let mul = 1.0001;
+let mul = 1.001;
 let number = new Number("0");
 let phase = 0;
 let threshold0 = new Number("1000");
@@ -101,10 +101,7 @@ function update() {
 		}
 	}
 	if(phase === 1) {
-		number.innermost.value *= mul**number.nests;
-		if(Number.comp(number,threshold1) !== threshold2) {
-			mul += 0.0001;
-		}
+		number.innermost.value *= mul*number.nests;
 	}
 	number = number.clean();
 	document.getElementById("number").innerHTML = number.toString();
