@@ -1,8 +1,8 @@
 class Number {
 	constructor(str) {
-		this.type = "number";
 		if(str[0] === "1" && str[1] === "0" && str[2] === "^") {
 			this.magnitude = new Number(str.substring(3, str.length));
+			this.type = 1;
 		} else {
 			this.value = parseFloat(str);
 		}
@@ -22,14 +22,32 @@ class Number {
 		}
 	}
 	toString() {
-		if(this.magnitude) {
+		if(this.magnitude && this.type === 1) {
 			if(this.magnitude.value) {
 				let val = Math.floor(this.magnitude.value);
-				let val2 = Math.floor(100*(10**(this.magnitude.value-val)))/100"
+				let val2 = Math.floor(100*(10**(this.magnitude.value-val)))/100;
 				return val2+"*10^"+val;
 			}
 		} else {
 			return Math.floor(this.value).toString();
+		}
+	}
+	get nests() {
+		if(!this.magnitude) {
+			return 0;
+		} else {
+			if(this.type === this.magnitude.type) {
+				return this.magnitude.nests;
+			} else {
+				return 1;
+			}
+		}
+	}
+	get innermost() {
+		if(!this.magnitude) {
+			return this;
+		} else {
+			return this.magnitude.innermost;
 		}
 	}
 	static comp(a,b) {
