@@ -23,7 +23,11 @@ class Number {
 	}
 	toString() {
 		if(this.magnitude) {
-			return "10^"+this.magnitude.toString();
+			if(this.magnitude.value) {
+				let val = Math.floor(this.magnitude.value);
+				let val2 = Math.floor(100*(10**(this.magnitude.value-val)))/100"
+				return val2+"*10^"+val;
+			}
 		} else {
 			return Math.floor(this.value).toString();
 		}
@@ -54,17 +58,24 @@ class Number {
 }
 let add = 0;
 let add2 = 0
-let add3 = 0
-let add4 = 0.0000001;
+let add3 = 0.0000001;
+let mul = 1.0001;
 let number = new Number("0");
 let phase = 0;
-let threshold1 = new Number("10000");
+let threshold1 = new Number("10^6");
 function update() {
-	add3 += add4;
-	add2 += add3;
-	add += add2;
 	if(phase === 0) {
-		number.value += add;
+		add2 += add3;
+		add += add2;
+		if(phase === 0) {
+			number.value += add;
+		}
+		if(Number.comp(number,threshold1) !== threshold1) {
+			phase = 1;
+		}
+	}
+	if(phase === 1) {
+		number.magnitude *= mul;
 	}
 	number = number.clean();
 	document.getElementById("number").innerHTML = number.toString();
