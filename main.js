@@ -85,6 +85,7 @@ let number = new Number("0");
 let phase = 0;
 let threshold0 = new Number("1000");
 let threshold1 = new Number("10^6");
+let threshold2 = new Number("10^30");
 function update() {
 	if(phase === 0) {
 		if(Number.comp(number,threshold1) !== threshold1) {
@@ -101,6 +102,9 @@ function update() {
 	}
 	if(phase === 1) {
 		number.innermost.value *= mul**number.nests;
+		if(Number.comp(number,threshold1) !== threshold2) {
+			mul += 0.0001;
+		}
 	}
 	number = number.clean();
 	document.getElementById("number").innerHTML = number.toString();
