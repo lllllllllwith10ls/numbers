@@ -78,6 +78,7 @@ let add3 = 0.0000001;
 let mul = 1.0001;
 let number = new Number("0");
 let phase = 0;
+let threshold0 = new Number("1000");
 let threshold1 = new Number("10^6");
 function update() {
 	if(phase === 0) {
@@ -88,6 +89,9 @@ function update() {
 		}
 		if(Number.comp(number,threshold1) !== threshold1) {
 			phase = 1;
+		}
+		if(Number.comp(number,threshold0) !== threshold0) {
+			add3 += 0.0000001;
 		}
 	}
 	if(phase === 1) {
