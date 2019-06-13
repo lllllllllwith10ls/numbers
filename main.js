@@ -8,9 +8,13 @@ class Number {
 		}
 	}
 	clean() {
-		if(this.value != undefined) {
+		if(this.value !== undefined) {
+			if(this.magnitude) {
+				this.value = undefined;
+				return this;
+			}
 			if(this.value > 1e6) {
-				return new Number("10^"+Math.log10(this.value).toString());
+				return new Number("10^"+Math.log10(this.value));
 			} else {
 				return this;
 			}
@@ -18,6 +22,7 @@ class Number {
 			this.magnitude = this.magnitude.clean();
 			return this;
 		}
+		return this;
 	}
 	toString() {
 		if(this.magnitude && this.type === 1) {
