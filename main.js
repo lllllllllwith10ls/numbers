@@ -95,7 +95,7 @@ function update() {
 		}
 	}
 	if(phase === 1) {
-		number.magnitude *= mul;
+		number.innermost.value *= mul**number.nests;
 	}
 	number = number.clean();
 	document.getElementById("number").innerHTML = number.toString();
