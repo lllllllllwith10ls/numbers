@@ -87,13 +87,13 @@ let threshold0 = new Number("1000");
 let threshold1 = new Number("10^6");
 function update() {
 	if(phase === 0) {
+		if(Number.comp(number,threshold1) !== threshold1) {
+			phase = 1;
+		}
 		add2 += add3;
 		add += add2;
 		if(phase === 0) {
 			number.value += add;
-		}
-		if(Number.comp(number,threshold1) !== threshold1) {
-			phase = 1;
 		}
 		if(Number.comp(number,threshold0) !== threshold0) {
 			add3 += 0.0000001;
