@@ -8,17 +8,15 @@ class Number {
 		}
 	}
 	clean() {
-		if(this.type === "number") {
-			if(this.value != undefined) {
-				if(this.value > 1e6) {
-					return new Number("10^"+Math.log10(this.value).toString());
-				} else {
-					return this;
-				}
+		if(this.value != undefined) {
+			if(this.value > 1e6) {
+				return new Number("10^"+Math.log10(this.value).toString());
 			} else {
-				this.magnitude = this.magnitude.clean();
 				return this;
 			}
+		} else {
+			this.magnitude = this.magnitude.clean();
+			return this;
 		}
 	}
 	toString() {
